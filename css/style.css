@@ -106,12 +106,6 @@ body {
     padding-bottom: 6rem;
 }
 
-svg:not(:host).svg-inline--fa,
-svg:not(:root).svg-inline--fa {
-    overflow: visible;
-    box-sizing: content-box;
-}
-
 .svg-inline--fa {
     display: var(--fa-display, inline-block);
     height: 1em;
@@ -157,6 +151,11 @@ svg:not(:root).svg-inline--fa {
     line-height: 2.5rem;
     padding-top: 96px;
     padding-bottom: 96px;
+}
+
+.page-section .page-section-heading {
+    font-size: 2.25rem;
+    line-height: 2rem;
 }
 
 .flip-cards {

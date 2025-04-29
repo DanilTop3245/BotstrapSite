@@ -368,7 +368,7 @@ control.is-invalid {
     display: flex;
 }
 
-@media (max-width: 764px) and (orientation: landscape) {
+@media (max-width: 1200px) {
     .modal-content {
         width: 80%;
     }

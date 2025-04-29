@@ -111,6 +111,7 @@
         >
           Portfolio
         </h2>
+
         <div class="divider-custom">
           <div class="divider-custom-line"></div>
           <div class="divider-custom-icon">
@@ -123,147 +124,35 @@
           </div>
           <div class="divider-custom-line ms-3"></div>
         </div>
+
         <div class="row justify-content-center flip-cards">
-          <!-- Card 1 -->
-          <div class="col-md-6 col-lg-4 p-2 rounded text-center mb-5 flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img
-                  class="img-fluid rounded mb-2"
-                  src="assets/cabin.png"
-                  alt="..."
-                />
-              </div>
-              <div class="flip-card-back">
-                <p class="fs-6 lh-1 text-white p-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus, culpa quas! Maiores corporis voluptates impedit
-                  mollitia provident ab amet iusto corrupti, id rerum natus
-                  explicabo odit eligendi, vitae veritatis ratione.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="col-md-6 col-lg-4 p-2 rounded text-center mb-5 flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img
-                  class="img-fluid rounded mb-2"
-                  src="assets/cake.png"
-                  alt="..."
-                />
-              </div>
-              <div class="flip-card-back">
-                <p class="fs-6 lh-1 text-white p-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus, culpa quas! Maiores corporis voluptates impedit
-                  mollitia provident ab amet iusto corrupti, id rerum natus
-                  explicabo odit eligendi, vitae veritatis ratione.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="col-md-6 col-lg-4 p-2 rounded text-center mb-5 flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img
-                  class="img-fluid rounded mb-2"
-                  src="assets/circus.png"
-                  alt="..."
-                />
-              </div>
-              <div class="flip-card-back">
-                <p class="fs-6 lh-1 text-white p-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus, culpa quas! Maiores corporis voluptates impedit
-                  mollitia provident ab amet iusto corrupti, id rerum natus
-                  explicabo odit eligendi, vitae veritatis ratione.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="col-md-6 col-lg-4 p-2 rounded text-center mb-5 flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img
-                  class="img-fluid rounded mb-2"
-                  src="assets/game.png"
-                  alt="..."
-                />
-              </div>
-              <div class="flip-card-back">
-                <p class="fs-6 lh-1 text-white p-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus, culpa quas! Maiores corporis voluptates impedit
-                  mollitia provident ab amet iusto corrupti, id rerum natus
-                  explicabo odit eligendi, vitae veritatis ratione.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="col-md-6 col-lg-4 p-2 rounded text-center mb-5 flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img
-                  class="img-fluid rounded mb-2"
-                  src="assets/safe.png"
-                  alt="..."
-                />
-              </div>
-              <div class="flip-card-back">
-                <p class="fs-6 lh-1 text-white p-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus, culpa quas! Maiores corporis voluptates impedit
-                  mollitia provident ab amet iusto corrupti, id rerum natus
-                  explicabo odit eligendi, vitae veritatis ratione.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="col-md-6 col-lg-4 p-2 rounded text-center mb-5 flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img
-                  class="img-fluid rounded mb-2"
-                  src="assets/submarine.png"
-                  alt="..."
-                />
-              </div>
-              <div class="flip-card-back">
-                <p class="fs-6 lh-1 text-white p-3">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus, culpa quas! Maiores corporis voluptates impedit
-                  mollitia provident ab amet iusto corrupti, id rerum natus
-                  explicabo odit eligendi, vitae veritatis ratione.
-                </p>
-              </div>
-            </div>
-          </div>
+          <!-- Карточки сюда будут вставляться через JS -->
         </div>
-        <button
-          class="btn mb-5 btn-primary btn-add"
-          id="addCard"
-        >
+
+        <button class="btn mb-5 btn-primary btn-add" id="addCard">
           Add card
         </button>
+
         <div id="modal" class="modal">
           <div class="modal-content">
-            <p>Это модалка!</p>
-            <button id="closeModalBtn">Закрыть</button>
+            <button id="closeModalBtn" class="close-btn">✖</button>
+            <input type="color" id="colorInput" class="form-control mb-2" />
+            <input
+              type="text"
+              id="textInput"
+              class="form-control mb-2"
+              placeholder="Введите текст"
+            />
+            <input type="file" id="fileInput" class="form-control mb-2" />
+            <button id="saveCardBtn" class="btn btn-success mt-2">
+              Сохранить карточку
+            </button>
           </div>
         </div>
+        
       </div>
     </section>
+
     <!--About-->
     <section class="page-section bg-primary text-white mb-0 pb-6" id="about">
       <div class="container">

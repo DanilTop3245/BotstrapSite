@@ -7,6 +7,7 @@ const textInput = document.getElementById("textInput");
 const fileInput = document.getElementById("fileInput");
 const flipCardsContainer = document.querySelector(".flip-cards");
 
+
 let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [
   { imgSrc: "assets/cabin.png", text: "Карточка 1" },
   { imgSrc: "assets/cake.png", text: "Карточка 2" },
@@ -109,6 +110,13 @@ saveCardBtn.addEventListener("click", () => {
     fileInput.value = "";
     colorInput.value = "#000000";
   };
+  const maxFileSize = 100 * 1024;
+
+  if (file.size > maxFileSize) {
+    alert("Файл слишком большой! Загрузите изображение меньше 100 КБ.");
+    return 0;
+  }
+
 
   reader.readAsDataURL(file);
 });

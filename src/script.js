@@ -6,6 +6,8 @@ const colorInput = document.getElementById("colorInput");
 const textInput = document.getElementById("textInput");
 const fileInput = document.getElementById("fileInput");
 const flipCardsContainer = document.querySelector(".flip-cards");
+const maxFileSize = 100 * 1024;
+const countCards = cardsData.length;
 
 
 let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [
@@ -17,17 +19,17 @@ let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [
   { imgSrc: "assets/submarine.png", text: "Карточка 6" },
 ];
 
-// Сохраняем в localStorage
+// save to localStorage
 function saveToLocalStorage() {
   localStorage.setItem("cardsData", JSON.stringify(cardsData));
 }
 
-// Открытие модалки
+// open modal
 openBtn.addEventListener("click", () => {
   modal.classList.add("show");
 });
 
-// Закрытие модалки
+// close modal
 closeBtn.addEventListener("click", () => {
   modal.classList.remove("show");
 });
@@ -38,7 +40,7 @@ modal.addEventListener("click", (e) => {
   }
 });
 
-// Создание карточки
+// create card
 function createCard(card, index) {
   const cardEl = document.createElement("div");
   cardEl.className = "col-md-6 col-lg-4 p-2 rounded text-center mb-5 flip-card";
@@ -60,17 +62,17 @@ function createCard(card, index) {
   return cardEl;
 }
 
-// Рендер карточек
+// render cards
 function renderCards() {
   flipCardsContainer.innerHTML = "";
   cardsData.forEach((card, index) => {
     const cardEl = createCard(card, index);
     flipCardsContainer.appendChild(cardEl);
   });
-  openBtn.disabled = cardsData.length >= 9;
+  openBtn.disabled = countCards >= 9;
 }
 
-// Удаление карточки
+// delete card
 flipCardsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-card-btn")) {
     const index = e.target.getAttribute("data-index");
@@ -80,7 +82,7 @@ flipCardsContainer.addEventListener("click", (e) => {
   }
 });
 
-// Добавление новой карточки
+// add new card
 saveCardBtn.addEventListener("click", () => {
   const text = textInput.value.trim();
   const file = fileInput.files[0];
@@ -105,12 +107,12 @@ saveCardBtn.addEventListener("click", () => {
     renderCards();
     modal.classList.remove("show");
 
-    // Очистка полей
+    // clear inputs
     textInput.value = "";
     fileInput.value = "";
     colorInput.value = "#000000";
   };
-  const maxFileSize = 100 * 1024;
+  
 
   if (file.size > maxFileSize) {
     alert("Файл слишком большой! Загрузите изображение меньше 100 КБ.");
@@ -121,5 +123,5 @@ saveCardBtn.addEventListener("click", () => {
   reader.readAsDataURL(file);
 });
 
-// Первая отрисовка
+// first draw
 renderCards();

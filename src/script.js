@@ -7,7 +7,7 @@ const textInput = document.getElementById("textInput");
 const fileInput = document.getElementById("fileInput");
 const flipCardsContainer = document.querySelector(".flip-cards");
 const maxFileSize = 100 * 1024;
-const countCards = cardsData.length;
+
 
 
 let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [
@@ -18,6 +18,8 @@ let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [
   { imgSrc: "assets/safe.png", text: "Карточка 5" },
   { imgSrc: "assets/submarine.png", text: "Карточка 6" },
 ];
+
+const countCards = cardsData.length;
 
 // save to localStorage
 function saveToLocalStorage() {

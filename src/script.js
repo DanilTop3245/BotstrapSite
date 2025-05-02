@@ -8,8 +8,6 @@ const fileInput = document.getElementById("fileInput");
 const flipCardsContainer = document.querySelector(".flip-cards");
 const maxFileSize = 100 * 1024;
 
-
-
 let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [
   { imgSrc: "assets/cabin.png", text: "Карточка 1" },
   { imgSrc: "assets/cake.png", text: "Карточка 2" },
@@ -84,8 +82,18 @@ flipCardsContainer.addEventListener("click", (e) => {
   }
 });
 
+// createImage helper
+function createImage(fileData) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(fileData); // или resolve(img) — если нужно изображение
+    img.onerror = (err) => reject(err);
+    img.src = fileData;
+  });
+}
+
 // add new card
-saveCardBtn.addEventListener("click", () => {
+saveCardBtn.addEventListener("click", async () => {
   const text = textInput.value.trim();
   const file = fileInput.files[0];
   const color = colorInput.value;
@@ -95,32 +103,37 @@ saveCardBtn.addEventListener("click", () => {
     return;
   }
 
-  const reader = new FileReader();
-
-  reader.onload = function (event) {
-    const newCard = {
-      imgSrc: event.target.result,
-      text: text,
-      color: color,
-    };
-
-    cardsData.push(newCard);
-    saveToLocalStorage();
-    renderCards();
-    modal.classList.remove("show");
-
-    // clear inputs
-    textInput.value = "";
-    fileInput.value = "";
-    colorInput.value = "#000000";
-  };
-  
-
   if (file.size > maxFileSize) {
     alert("Файл слишком большой! Загрузите изображение меньше 100 КБ.");
-    return 0;
+    return;
   }
 
+  const reader = new FileReader();
+
+  reader.onload = async function (event) {
+    try {
+      const imgSrc = await createImage(event.target.result);
+
+      const newCard = {
+        imgSrc,
+        text,
+        color,
+      };
+
+      cardsData.push(newCard);
+      saveToLocalStorage();
+      renderCards();
+      modal.classList.remove("show");
+
+      // очистка полей
+      textInput.value = "";
+      fileInput.value = "";
+      colorInput.value = "#000000";
+    } catch (error) {
+      alert("Ошибка при загрузке изображения!");
+      console.error(error);
+    }
+  };
 
   reader.readAsDataURL(file);
 });

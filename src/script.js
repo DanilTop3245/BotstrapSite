@@ -19,7 +19,6 @@ let cardsData = JSON.parse(localStorage.getItem("cardsData")) || [
 
 const countCards = cardsData.length;
 
-// save to localStorage
 function saveToLocalStorage() {
   localStorage.setItem("cardsData", JSON.stringify(cardsData));
 }
@@ -69,7 +68,7 @@ function renderCards() {
     const cardEl = createCard(card, index);
     flipCardsContainer.appendChild(cardEl);
   });
-  openBtn.disabled = countCards >= 9;
+  openBtn.disabled = cardsData.length >= 9;
 }
 
 // delete card
@@ -82,60 +81,74 @@ flipCardsContainer.addEventListener("click", (e) => {
   }
 });
 
-// createImage helper
-function createImage(fileData) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(fileData); // или resolve(img) — если нужно изображение
-    img.onerror = (err) => reject(err);
-    img.src = fileData;
+// disable file input if catApi is selected
+document.querySelectorAll('input[name="imageOption"]').forEach((radio) => {
+  radio.addEventListener("change", () => {
+    fileInput.disabled = document.getElementById("catApiOption").checked;
   });
-}
+});
 
 // add new card
 saveCardBtn.addEventListener("click", async () => {
   const text = textInput.value.trim();
   const file = fileInput.files[0];
   const color = colorInput.value;
+  const selectedOption = document.querySelector(
+    'input[name="imageOption"]:checked'
+  ).value;
 
-  if (!text || !file) {
-    alert("Заполните все поля!");
-    return;
-  }
+  let imgSrc;
 
-  if (file.size > maxFileSize) {
-    alert("Файл слишком большой! Загрузите изображение меньше 100 КБ.");
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = async function (event) {
+  if (selectedOption === "catApi") {
     try {
-      const imgSrc = await createImage(event.target.result);
-
-      const newCard = {
-        imgSrc,
-        text,
-        color,
-      };
-
-      cardsData.push(newCard);
-      saveToLocalStorage();
-      renderCards();
-      modal.classList.remove("show");
-
-      // очистка полей
-      textInput.value = "";
-      fileInput.value = "";
-      colorInput.value = "#000000";
+      const config = await fetch("/config/config.json").then((r) => r.json());
+      const response = await fetch(
+        "https://api.thecatapi.com/v1/images/search",
+        {
+          headers: { "x-api-key": config.API_KEY },
+        }
+      );
+      const catData = await response.json();
+      imgSrc = catData[0].url;
     } catch (error) {
-      alert("Ошибка при загрузке изображения!");
+      alert("Не удалось загрузить котика 😿");
       console.error(error);
+      return;
     }
+  } else {
+    if (!file) {
+      alert("Выберите изображение!");
+      return;
+    }
+
+    if (file.size > maxFileSize) {
+      alert("Файл слишком большой! Загрузите изображение меньше 100 КБ.");
+      return;
+    }
+
+    imgSrc = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const newCard = {
+    imgSrc,
+    text,
+    color,
   };
 
-  reader.readAsDataURL(file);
+  cardsData.push(newCard);
+  saveToLocalStorage();
+  renderCards();
+  modal.classList.remove("show");
+
+  // clear fields
+  textInput.value = "";
+  fileInput.value = "";
+  colorInput.value = "#000000";
 });
 
 // first draw

@@ -101,7 +101,9 @@ saveCardBtn.addEventListener("click", async () => {
 
   if (selectedOption === "catApi") {
     try {
-      const config = await fetch("/config/config.json").then((r) => r.json());
+      const config = await fetch("/BotstrapSite/config/config.json").then((r) =>
+        r.json()
+      );
       const response = await fetch(
         "https://api.thecatapi.com/v1/images/search",
         {
